@@ -1,17 +1,23 @@
 package com.company;
 
+import com.company.algorithms.Settings;
+
+import java.awt.*;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class Sorting {
+    private int[] arr = new int[50];
+    private Settings settings;
+    
     public int[] getArr() {
         return arr;
     }
-
     public void setArr(int[] arr) {
         this.arr = arr;
     }
 
-    private int[] arr = new int[50];
+
 
     public int[] getSwapped() {
         return swapped;
@@ -22,6 +28,7 @@ public class Sorting {
 
     private int[] swapped = new int[2];
     public Sorting() {
+
         Random rand = new Random();
         int temp[] = new int[50];
         for (int i = 0; i < temp.length; i++) {
