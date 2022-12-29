@@ -1,7 +1,8 @@
 package com.company.algorithms;
-
+import java.awt.Graphics;
+import java.awt.Dimension;
 import javax.swing.*;
-import java.awt.*;
+
 import java.util.concurrent.TimeUnit;
 
 public class QuickSort extends JPanel {
@@ -14,6 +15,18 @@ public class QuickSort extends JPanel {
         setPreferredSize(new Dimension(this.settings.WIDTH, this.settings.HEIGHT));
         this.data = settings.generateRandomData();
     }
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        setBackground(this.settings.BACKGROUND_COLOR);
+        for (int i = 0; i < data.length; i++) {
+            int barHeight = data[i] * this.settings.MAX_BAR_HEIGHT / this.settings.getNumBars();
+            if(!isSorted) {g.setColor(this.settings.UNSORTED_COLOR);}
+            else g.setColor(this.settings.SORTED_COLOR);
+            g.fillRect(i * this.settings.getBarWidth(), this.settings.HEIGHT - barHeight, this.settings.getBarWidth()-1, barHeight);
+        }
+    }
     public void updateSettings(Settings settings){
         this.settings = settings;
     }
@@ -25,18 +38,7 @@ public class QuickSort extends JPanel {
             quickSort(pivot + 1, right);
         }
     }
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
 
-        setBackground(this.settings.BACKGROUND_COLOR);
-        for (int i = 0; i < data.length; i++) {
-            int barHeight = data[i] * this.settings.MAX_BAR_HEIGHT / this.settings.getNumBars();
-            if(!isSorted) {g.setColor(this.settings.UNSORTED_COLOR);}
-            else g.setColor(this.settings.SORTED_COLOR);
-            g.fillRect(i * this.settings.getBarWidth(), HEIGHT - barHeight, this.settings.getBarWidth()-1, barHeight);
-        }
-    }
     private int partition(int left, int right){ // select a pivot index, put 
         //items less than the pivot value before the pivot index, and put items 
         //greater than pivot value after the pivot index
@@ -47,8 +49,8 @@ public class QuickSort extends JPanel {
         for (int i = left; i < right; i++) {
             if (this.data[i] < pivot_value){
                 swap(lastIndex, i);
-                repaint();
                 lastIndex++;
+
                 try {
                     TimeUnit.MILLISECONDS.sleep(1);
                 } catch (InterruptedException e) {
@@ -56,21 +58,21 @@ public class QuickSort extends JPanel {
                 }
             }
         }
-        swap(lastIndex, right);
         repaint();
+
+        swap(lastIndex, right);
         return lastIndex;
     }
     private void swap(int i, int j){ // swap item i and j in the array
         int tmp = this.data[i];
         this.data[i] = this.data[j];
         this.data[j] = tmp;
+        repaint();
     }
 
     public int [] sort(){
-        repaint();
         quickSort(0, this.data.length - 1);
         isSorted = true;
-        repaint();
         return this.data;
     }
 }

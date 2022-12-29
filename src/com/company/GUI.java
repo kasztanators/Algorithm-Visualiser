@@ -30,9 +30,9 @@ public class GUI implements  ActionListener{
         settings = new Settings();
         frame = new JFrame(title);
 
-
         bubbleSort= new BubbleSort(settings);
-        frame.add(bubbleSort);
+      //  frame.add(bubbleSort);
+
         quickSort = new QuickSort(settings);
         frame.add(quickSort);
 
@@ -58,6 +58,7 @@ public class GUI implements  ActionListener{
         menuBar.add(sorting);
         menuBar.add(pathFinding);
         bubble.addActionListener(this);
+        quick.addActionListener(this);
 
         frame.setJMenuBar(menuBar);
         frame.setLayout(new CardLayout());
@@ -65,8 +66,6 @@ public class GUI implements  ActionListener{
         mainPanel.setBackground(Color.lightGray);
         mainPanel.setLayout(null);
         frame.add(mainPanel);
-        JButton button1 = new JButton("Press");
-        frame.getContentPane().add(button1);
         frame.pack();
 
         frame.setVisible(true);
@@ -75,10 +74,11 @@ public class GUI implements  ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == bubble){
-            Sorting sort = new Sorting();
+            //quickSort.remove(frame);
+
             bubbleSort.sort();
         }
-        else if(e.getSource() == quick){
+        if(e.getSource() == quick){
             quickSort.sort();
         }
         else if(e.getSource() == merge){

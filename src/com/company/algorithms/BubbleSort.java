@@ -1,12 +1,9 @@
 package com.company.algorithms;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JPanel;
-import com.company.algorithms.Settings.*;
 public class BubbleSort extends JPanel {
     private static boolean isSorted;
     private Settings settings;
@@ -18,9 +15,7 @@ public class BubbleSort extends JPanel {
         data = settings.generateRandomData();
         isSorted = false;
     }
-    public void updateSettings(Settings settings){
-        this.settings = settings;
-    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -37,14 +32,16 @@ public class BubbleSort extends JPanel {
             g.fillRect(i * this.settings.getBarWidth(), this.settings.HEIGHT - barHeight, this.settings.getBarWidth()-1, barHeight);
         }
     }
-
+    public void updateSettings(Settings settings){
+        this.settings = settings;
+    }
     public void sort() {
         Thread sortThread = new Thread(() -> {
             for (int i = 0; i < data.length; i++) {
                 for (int j = i + 1; j < data.length; j++) {
                     if (data[j] < data[i]) {
                         swap(i, j);
-                        repaint();
+
                         try {
                             TimeUnit.MILLISECONDS.sleep(1);
                         } catch (InterruptedException e) {
@@ -62,5 +59,6 @@ public class BubbleSort extends JPanel {
         int temp = data[i];
         data[i] = data[j];
         data[j] = temp;
+        repaint();
     }
 }
