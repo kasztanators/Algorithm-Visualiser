@@ -1,6 +1,8 @@
 package com.company;
 
-import com.company.algorithms.BubbleSortVisualizer;
+import com.company.algorithms.BubbleSort;
+import com.company.algorithms.QuickSort;
+import com.company.algorithms.Settings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,30 +14,50 @@ public class GUI implements  ActionListener{
     private Toolkit toolkit;
     private JFrame frame;
     private JPanel mainPanel;
-    private JMenuItem sorting;
-    private JMenu menu;
-    private BubbleSortVisualizer.Settings settings;
-    private BubbleSortVisualizer bubbleSortVisualizer;
+    private JMenuItem bubble;
+    private JMenuItem quick;
+    private JMenuItem merge;
+    private JMenuItem insertion;
+    private JMenuItem aStar;
+    private JMenu sorting;
+    private JMenu pathFinding;
+    private Settings settings;
+    private BubbleSort bubbleSort;
+    private QuickSort quickSort;
     public GUI(String title) {
         toolkit = Toolkit.getDefaultToolkit();
 
-        settings = new BubbleSortVisualizer.Settings();
+        settings = new Settings();
         frame = new JFrame(title);
 
 
-
+        bubbleSort= new BubbleSort(settings);
+        frame.add(bubbleSort);
+        quickSort = new QuickSort(settings);
+        frame.add(quickSort);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        bubbleSortVisualizer = new BubbleSortVisualizer(settings);
-        frame.add(bubbleSortVisualizer);
-        menu = new JMenu("Menu");
-        sorting = new JMenuItem("Sorting Algorssithm");
+
+
+        sorting = new JMenu("Sorting Algorithms");
+        pathFinding = new JMenu("Path Finding");
+        bubble = new JMenuItem("Bubble sort");
+        quick = new JMenuItem("Quick Sort");
+        merge = new JMenuItem("Merge Sort");
+        insertion = new JMenuItem("Insertion Sort");
+        aStar = new JMenuItem("A* algorithm");
 
         JMenuBar menuBar = new JMenuBar();
-        menu.add(sorting);
+        sorting.add(bubble);
+        sorting.add(quick);
+        sorting.add(merge);
+        sorting.add(insertion);
 
-        menuBar.add(menu);
-        sorting.addActionListener(this);
+        pathFinding.add(aStar);
+
+        menuBar.add(sorting);
+        menuBar.add(pathFinding);
+        bubble.addActionListener(this);
 
         frame.setJMenuBar(menuBar);
         frame.setLayout(new CardLayout());
@@ -45,23 +67,26 @@ public class GUI implements  ActionListener{
         frame.add(mainPanel);
         JButton button1 = new JButton("Press");
         frame.getContentPane().add(button1);
-        frame.setVisible(true);
-       frame.pack();
+        frame.pack();
 
         frame.setVisible(true);
 
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-
-
-        if (e.getSource() == sorting){
+        if (e.getSource() == bubble){
             Sorting sort = new Sorting();
-
-            bubbleSortVisualizer.sort();
+            bubbleSort.sort();
+        }
+        else if(e.getSource() == quick){
+            quickSort.sort();
+        }
+        else if(e.getSource() == merge){
 
         }
+        else if(e.getSource() == insertion){
 
+        }
     }
 
 

@@ -1,6 +1,8 @@
 package com.company.algorithms;
 
-public class MergeSort {
+import javax.swing.*;
+
+public class MergeSort extends JPanel {
     private int [] input;
     public MergeSort(int [] input) {
         this.input = input;
