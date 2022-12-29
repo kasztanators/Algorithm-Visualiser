@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JPanel;
+
 public class BubbleSort extends JPanel {
     private static boolean isSorted;
     private Settings settings;

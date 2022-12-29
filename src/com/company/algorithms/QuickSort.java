@@ -1,26 +1,27 @@
 package com.company.algorithms;
 import java.awt.Graphics;
 import java.awt.Dimension;
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import java.util.concurrent.TimeUnit;
 
 public class QuickSort extends JPanel {
     private int [] data;
-
     private static boolean isSorted;
     private Settings settings;
+
     public QuickSort(Settings settings){
         updateSettings(settings);
         setPreferredSize(new Dimension(this.settings.WIDTH, this.settings.HEIGHT));
-        this.data = settings.generateRandomData();
+        data = settings.generateRandomData();
+        isSorted = false;
     }
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         setBackground(this.settings.BACKGROUND_COLOR);
         for (int i = 0; i < data.length; i++) {
+
             int barHeight = data[i] * this.settings.MAX_BAR_HEIGHT / this.settings.getNumBars();
             if(!isSorted) {g.setColor(this.settings.UNSORTED_COLOR);}
             else g.setColor(this.settings.SORTED_COLOR);
@@ -46,6 +47,7 @@ public class QuickSort extends JPanel {
         int pivot_value = this.data[pivot];
         swap(pivot, right);
         int lastIndex = left;
+
         for (int i = left; i < right; i++) {
             if (this.data[i] < pivot_value){
                 swap(lastIndex, i);
@@ -58,7 +60,7 @@ public class QuickSort extends JPanel {
                 }
             }
         }
-        repaint();
+
 
         swap(lastIndex, right);
         return lastIndex;
@@ -68,6 +70,7 @@ public class QuickSort extends JPanel {
         this.data[i] = this.data[j];
         this.data[j] = tmp;
         repaint();
+
     }
 
     public int [] sort(){
