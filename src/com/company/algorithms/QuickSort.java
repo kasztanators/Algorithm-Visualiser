@@ -32,12 +32,14 @@ public class QuickSort extends JPanel {
         this.settings = settings;
     }
     private void quickSort(int left, int right){ // put pivot in the right place and 
-        //do the same for the left part and right part
+        Thread sortThread = new Thread(() -> {
         if (left < right){
             int pivot = partition(left, right);
             quickSort(left, pivot - 1);
             quickSort(pivot + 1, right);
         }
+        });
+        sortThread.start();
     }
 
     private int partition(int left, int right){ // select a pivot index, put 
@@ -54,7 +56,7 @@ public class QuickSort extends JPanel {
                 lastIndex++;
 
                 try {
-                    TimeUnit.MILLISECONDS.sleep(1);
+                    TimeUnit.MILLISECONDS.sleep(10);
                 } catch (InterruptedException e) {
                     // Do nothing
                 }
