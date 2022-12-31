@@ -42,9 +42,15 @@ public class Settings {
         Random rng = new Random();
         int[] data = new int[this.getNumBars()];
         for (int i = 0; i < this.getNumBars(); i++) {
-            data[i] = rng.nextInt(this.getNumBars());
+            data[i] = rng.nextInt(1, this.getNumBars());
         }
         return data;
+    }
+    protected void repaint(){
+
+
+
+
     }
 }
 

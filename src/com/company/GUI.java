@@ -1,8 +1,8 @@
 package com.company;
 
-import com.company.algorithms.BubbleSort;
-import com.company.algorithms.QuickSort;
-import com.company.algorithms.Settings;
+import com.company.algorithms.*;
+
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GUI implements  ActionListener{
-
-    private Toolkit toolkit;
     private JFrame frame;
     private JPanel mainPanel;
     private JMenuItem bubble;
@@ -24,17 +22,24 @@ public class GUI implements  ActionListener{
     private Settings settings;
     private BubbleSort bubbleSort;
     private QuickSort quickSort;
+    private InsertionSort insertionSort;
+    private MergeSort mergeSort;
+    private Container container;
     public GUI(String title) {
-        toolkit = Toolkit.getDefaultToolkit();
-
         settings = new Settings();
         frame = new JFrame(title);
-
+        container = frame.getContentPane();
         bubbleSort= new BubbleSort(settings);
-      //  frame.add(bubbleSort);
+      //
 
         quickSort = new QuickSort(settings);
-        frame.add(quickSort);
+
+
+        insertionSort = new InsertionSort(settings);
+
+
+        mergeSort = new MergeSort(settings);
+     //
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -59,13 +64,16 @@ public class GUI implements  ActionListener{
         menuBar.add(pathFinding);
         bubble.addActionListener(this);
         quick.addActionListener(this);
+        insertion.addActionListener(this);
+        merge.addActionListener(this);
+        frame.setPreferredSize(new Dimension(this.settings.WIDTH, this.settings.HEIGHT));
 
         frame.setJMenuBar(menuBar);
         frame.setLayout(new CardLayout());
         mainPanel = new JPanel();
         mainPanel.setBackground(Color.lightGray);
         mainPanel.setLayout(null);
-        frame.add(mainPanel);
+        container.add(mainPanel);
         frame.pack();
 
         frame.setVisible(true);
@@ -74,18 +82,28 @@ public class GUI implements  ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == bubble){
-            //quickSort.remove(frame);
-
+            container.removeAll();
+            container.add(bubbleSort);
+            frame.setVisible(true);
             bubbleSort.sort();
         }
         if(e.getSource() == quick){
+            container.removeAll();
+            container.add(quickSort);
+            frame.setVisible(true);
             quickSort.sort();
-
         }
         else if(e.getSource() == merge){
-
+            container.removeAll();
+            container.add(mergeSort);
+            frame.setVisible(true);
+            mergeSort.sort();
         }
         else if(e.getSource() == insertion){
+            container.removeAll();
+            container.add(insertionSort);
+            frame.setVisible(true);
+            insertionSort.sort();
 
         }
     }

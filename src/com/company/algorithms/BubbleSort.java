@@ -13,7 +13,7 @@ public class BubbleSort extends JPanel {
     public BubbleSort(Settings settings) {
         updateSettings(settings);
         setPreferredSize(new Dimension(this.settings.WIDTH, this.settings.HEIGHT));
-        data = settings.generateRandomData();
+
         isSorted = false;
     }
 
@@ -37,6 +37,7 @@ public class BubbleSort extends JPanel {
         this.settings = settings;
     }
     public void sort() {
+        data = settings.generateRandomData();
         Thread sortThread = new Thread(() -> {
             for (int i = 0; i < data.length; i++) {
                 for (int j = i + 1; j < data.length; j++) {
