@@ -3,11 +3,12 @@ import java.awt.Graphics;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 
+import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
 public class QuickSort extends JPanel {
     private int [] data;
-    private static boolean isSorted;
+    private boolean isSorted;
     private Settings settings;
 
     public QuickSort(Settings settings){
@@ -31,53 +32,84 @@ public class QuickSort extends JPanel {
     public void updateSettings(Settings settings){
         this.settings = settings;
     }
-    private void quickSort(int left, int right){ // put pivot in the right place and 
+    public void sort() {
         Thread sortThread = new Thread(() -> {
-        if (left < right){
-            int pivot = partition(left, right);
-            quickSort(left, pivot - 1);
-            quickSort(pivot + 1, right);
+        Stack<Integer> stack = new Stack<>();
+        // Push the initial start and end indices onto the stack
+        stack.push(0);
+        stack.push(this.data.length - 1);
+
+        while (!stack.isEmpty()) {
+            // Pop the end index off the stack
+            int end = stack.pop();
+            // Pop the start index off the stack
+            int start = stack.pop();
+
+            // Choose the pivot element
+            int pivotIndex = partition( start, end);
+
+            // If there are elements on the left of the pivot, push them onto the stack
+            if (pivotIndex - 1 > start) {
+                stack.push(start);
+                stack.push(pivotIndex - 1);
+            }
+
+            // If there are elements on the right of the pivot, push them onto the stack
+            if (pivotIndex + 1 < end) {
+                stack.push(pivotIndex + 1);
+                stack.push(end);
+            }
         }
+            isSorted = true;
         });
         sortThread.start();
     }
 
-    private int partition(int left, int right){ // select a pivot index, put 
-        //items less than the pivot value before the pivot index, and put items 
-        //greater than pivot value after the pivot index
-        int pivot =  ((int) (Math.random() * (right - left)) + left);
-        int pivot_value = this.data[pivot];
-        swap(pivot, right);
-        int lastIndex = left;
+    private int partition(int start, int end) {
+        // Choose the pivot element
+        int pivot = this.data[end];
 
-        for (int i = left; i < right; i++) {
-            if (this.data[i] < pivot_value){
-                swap(lastIndex, i);
-                lastIndex++;
+        // Initialize the left and right indices
+        int left = start;
+        int right = end - 1;
 
+        while (left <= right) {
+            // Find the first element that is greater than or equal to the pivot
+            while (left <= right && this.data[left] < pivot) {
+                left++;
+            }
+
+            // Find the first element that is less than or equal to the pivot
+            while (left <= right && this.data[right] > pivot) {
+                right--;
+            }
+
+            // Swap the elements if they are in the wrong partition
+            if (left <= right) {
+                int temp = this.data[left];
+                this.data[left] = this.data[right];
+                this.data[right] = temp;
                 try {
-                    TimeUnit.MILLISECONDS.sleep(10);
+                    TimeUnit.MILLISECONDS.sleep(50);
                 } catch (InterruptedException e) {
                     // Do nothing
                 }
+                left++;
+                right--;
+                repaint();
             }
         }
 
-
-        swap(lastIndex, right);
-        return lastIndex;
-    }
-    private void swap(int i, int j){ // swap item i and j in the array
-        int tmp = this.data[i];
-        this.data[i] = this.data[j];
-        this.data[j] = tmp;
+        // Swap the pivot element into its correct position
+        int temp = this.data[left];
+        this.data[left] = this.data[end];
+        this.data[end] = temp;
+        try {
+            TimeUnit.MILLISECONDS.sleep(50);
+        } catch (InterruptedException e) {
+            // Do nothing
+        }
         repaint();
-
-    }
-
-    public int [] sort(){
-        quickSort(0, this.data.length - 1);
-        isSorted = true;
-        return this.data;
+        return left;
     }
 }

@@ -80,6 +80,7 @@ public class GUI implements  ActionListener{
         }
         if(e.getSource() == quick){
             quickSort.sort();
+
         }
         else if(e.getSource() == merge){
 
