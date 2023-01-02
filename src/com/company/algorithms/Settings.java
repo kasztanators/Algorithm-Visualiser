@@ -48,9 +48,6 @@ public class Settings {
     }
     protected void repaint(){
 
-
-
-
     }
 }
 

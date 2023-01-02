@@ -7,26 +7,26 @@ import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
 public class QuickSort extends JPanel {
-    private int [] data;
+    private final int [] data;
     private boolean isSorted;
     private Settings settings;
 
     public QuickSort(Settings settings){
         updateSettings(settings);
-        setPreferredSize(new Dimension(this.settings.WIDTH, this.settings.HEIGHT));
+        setPreferredSize(new Dimension(Settings.WIDTH, Settings.HEIGHT));
         data = settings.generateRandomData();
         isSorted = false;
     }
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        setBackground(this.settings.BACKGROUND_COLOR);
+        setBackground(Settings.BACKGROUND_COLOR);
         for (int i = 0; i < data.length; i++) {
 
-            int barHeight = data[i] * this.settings.MAX_BAR_HEIGHT / this.settings.getNumBars();
-            if(!isSorted) {g.setColor(this.settings.UNSORTED_COLOR);}
-            else g.setColor(this.settings.SORTED_COLOR);
-            g.fillRect(i * this.settings.getBarWidth(), this.settings.HEIGHT - barHeight, this.settings.getBarWidth()-1, barHeight);
+            int barHeight = data[i] * Settings.MAX_BAR_HEIGHT / this.settings.getNumBars();
+            if(!isSorted) {g.setColor(Settings.UNSORTED_COLOR);}
+            else g.setColor(Settings.SORTED_COLOR);
+            g.fillRect(i * this.settings.getBarWidth(), Settings.HEIGHT - barHeight, this.settings.getBarWidth()-1, barHeight);
         }
     }
     public void updateSettings(Settings settings){
@@ -90,7 +90,7 @@ public class QuickSort extends JPanel {
                 this.data[left] = this.data[right];
                 this.data[right] = temp;
                 try {
-                    TimeUnit.MILLISECONDS.sleep(50);
+                    TimeUnit.MILLISECONDS.sleep(20);
                 } catch (InterruptedException e) {
                     // Do nothing
                 }
@@ -99,13 +99,12 @@ public class QuickSort extends JPanel {
                 repaint();
             }
         }
-
         // Swap the pivot element into its correct position
         int temp = this.data[left];
         this.data[left] = this.data[end];
         this.data[end] = temp;
         try {
-            TimeUnit.MILLISECONDS.sleep(50);
+            TimeUnit.MILLISECONDS.sleep(20);
         } catch (InterruptedException e) {
             // Do nothing
         }

@@ -1,7 +1,7 @@
 package com.company;
 
 import com.company.algorithms.*;
-
+import com.company.pathFinding.PathFinding;
 
 
 import javax.swing.*;
@@ -52,6 +52,7 @@ public class GUI implements  ActionListener{
         quick.addActionListener(this);
         insertion.addActionListener(this);
         merge.addActionListener(this);
+        aStar.addActionListener(this);
         frame.setPreferredSize(new Dimension(this.settings.WIDTH+15, this.settings.HEIGHT+70));
         frame.setJMenuBar(menuBar);
         frame.setLayout(new CardLayout());
@@ -94,6 +95,12 @@ public class GUI implements  ActionListener{
             frame.setVisible(true);
             insertionSort.sort();
 
+        }
+        else if(e.getSource()== aStar){
+            PathFinding pathFinding = new PathFinding();
+            container.removeAll();
+            container.add(pathFinding);
+            pathFinding.draw();
         }
     }
 

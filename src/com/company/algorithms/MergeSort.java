@@ -11,84 +11,116 @@ public class MergeSort extends JPanel {
 
     public MergeSort(Settings settings) {
         updateSettings(settings);
-        setPreferredSize(new Dimension(this.settings.WIDTH, this.settings.HEIGHT));
+        setPreferredSize(new Dimension(Settings.WIDTH, Settings.HEIGHT));
         data = settings.generateRandomData();
         isSorted = false;
     }
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        setBackground(this.settings.BACKGROUND_COLOR);
+        setBackground(Settings.BACKGROUND_COLOR);
         for (int i = 0; i < data.length; i++) {
 
-            int barHeight = data[i] * this.settings.MAX_BAR_HEIGHT / this.settings.getNumBars();
+            int barHeight = data[i] * Settings.MAX_BAR_HEIGHT / this.settings.getNumBars();
             if(!isSorted) {g.setColor(this.settings.UNSORTED_COLOR);}
             else g.setColor(this.settings.SORTED_COLOR);
             g.fillRect(i * this.settings.getBarWidth(), this.settings.HEIGHT - barHeight, this.settings.getBarWidth()-1, barHeight);
         }
-    }
-    private int [] merge(int left [], int right[]){
-        // sort items in two arrays in a single array (merge two arrays in a sorted array)
 
-        int [] ret = new int [right.length + left.length];
-        int j = 0;
-        int rightIndex = 0;
-        int leftIndex = 0;
-        while (j < ret.length){
-            if (rightIndex < right.length && leftIndex < left.length){
-                if (right[rightIndex] < left[leftIndex]){
-                    ret[j] = right[rightIndex];
-                    rightIndex++;
-                }else {
-                    ret[j] = left[leftIndex];
-                    leftIndex++;
-                }
-            }else if (rightIndex < right.length){
-                ret[j] = right[rightIndex];
-                rightIndex++;
-            }else {
-                ret[j] = left[leftIndex];
-                leftIndex++;
-            }
-            j++;
-        }
-        return ret;
-    }
 
-    public void sort(){
+    }
+    public void sort() {
+
         Thread sortThread = new Thread(() -> {
-
-            if (this.data != null)
-           mergeSort(this.data, this.data.length);
-        isSorted = true;
-    });
+        int array [] = this.data;
+        sort(array, 0, array.length - 1);
+            isSorted = true;
+            repaint();
+        });
         sortThread.start();
     }
 
-    private int [] mergeSort(int [] data, int p){
-        if (data.length == 1){ // return if the array has only one item
-            return data;
-        }
+    void merge(int arr[], int l, int m, int r)
+    {
+        // Find sizes of two subarrays to be merged
+        int n1 = m - l + 1;
+        int n2 = r - m;
 
-        return merge( // merge left part and right part
-                //left part
-                mergeSort(copyOfRange(data, 0, p/2), p/2),
-                //right part
-                mergeSort(copyOfRange(data, p/2, data.length), data.length - p/2)
-        );
-    }
-    private int [] copyOfRange(int [] data, int i, int j){ // copy a range of an array into a new array
-        int range [] = new int [j-i];
-        for (int k = i; k < j; k++) {
-            range [k-i] = data[k];
+        /* Create temp arrays */
+        int L[] = new int[n1];
+        int R[] = new int[n2];
+
+        /*Copy data to temp arrays*/
+        for (int i = 0; i < n1; ++i)
+            L[i] = arr[l + i];
+
+        for (int j = 0; j < n2; ++j)
+            R[j] = arr[m + 1 + j];
+
+        int i = 0, j = 0;
+
+        // Initial index of merged subarray array
+        int k = l;
+        while (i < n1 && j < n2) {
+            if (L[i] <= R[j]) {
+                arr[k] = L[i];
+                i++;
+            }
+            else {
+                arr[k] = R[j];
+                j++;
+            }
+            k++;
             repaint();
             try {
-                TimeUnit.MILLISECONDS.sleep(1);
+                TimeUnit.MILLISECONDS.sleep(5);
             } catch (InterruptedException e) {
                 // Do nothing
             }
         }
-        return range;
+
+        /* Copy remaining elements of L[] if any */
+        while (i < n1) {
+            arr[k] = L[i];
+            i++;
+            k++;
+            repaint();
+            try {
+                TimeUnit.MILLISECONDS.sleep(5);
+            } catch (InterruptedException e) {
+                // Do nothing
+            }
+        }
+
+        /* Copy remaining elements of R[] if any */
+        while (j < n2) {
+            arr[k] = R[j];
+            j++;
+            k++;
+            repaint();
+            try {
+                TimeUnit.MILLISECONDS.sleep(5);
+            } catch (InterruptedException e) {
+                // Do nothing
+            }
+        }
+    }
+
+    // Main function that sorts arr[l..r] using
+    // merge()
+    void sort(int arr[], int l, int r)
+    {
+        if (l < r) {
+            // Find the middle point
+            int m = l + (r - l) / 2;
+
+            // Sort first and second halves
+            sort(arr, l, m);
+            sort(arr, m + 1, r);
+
+            // Merge the sorted halves
+            merge(arr, l, m, r);
+        }
     }
     public void updateSettings(Settings settings){
         this.settings = settings;
