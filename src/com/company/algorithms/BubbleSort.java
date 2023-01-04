@@ -3,64 +3,51 @@ package com.company.algorithms;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.concurrent.TimeUnit;
-import javax.swing.JPanel;
 
-public class BubbleSort extends JPanel {
-    private static boolean isSorted;
+public class BubbleSort extends Settings {
+
     private Settings settings;
-    private int[] data;
 
-    public BubbleSort(Settings settings) {
-        updateSettings(settings);
+
+    public BubbleSort() {
         setPreferredSize(new Dimension(this.settings.WIDTH, this.settings.HEIGHT));
-
-        isSorted = false;
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        setBackground(this.settings.BACKGROUND_COLOR);
-        for (int i = 0; i < data.length; i++) {
-            int barHeight = data[i] * this.settings.MAX_BAR_HEIGHT / this.settings.getNumBars();
-            if(!isSorted) {
-                g.setColor(this.settings.UNSORTED_COLOR);
-            }
-            else{
-                g.setColor(this.settings.SORTED_COLOR);
-            }
-            g.fillRect(i * this.settings.getBarWidth(), this.settings.HEIGHT - barHeight, this.settings.getBarWidth()-1, barHeight);
-        }
+        this.setData(generateRandomData());
+        this.setSpeed(1);
     }
     public void updateSettings(Settings settings){
         this.settings = settings;
     }
     public void sort() {
-        data = settings.generateRandomData();
         Thread sortThread = new Thread(() -> {
-            for (int i = 0; i < data.length; i++) {
-                for (int j = i + 1; j < data.length; j++) {
-                    if (data[j] < data[i]) {
+            for (int i = 0; i < getData().length; i++) {
+                for (int j = i + 1; j < getData().length; j++) {
+                    if (getData()[j] < getData()[i]) {
                         swap(i, j);
 
                         try {
-                            TimeUnit.MILLISECONDS.sleep(1);
+                            TimeUnit.MILLISECONDS.sleep(getSpeed());
                         } catch (InterruptedException e) {
                             // Do nothing
                         }
                     }
                 }
             }
-            isSorted = true;
-            repaint();
+            for(int i =0; i< getData().length; i++){
+                repaint();
+                setSortedIndex(i+1);
+                try {
+                    TimeUnit.MILLISECONDS.sleep(ANIMATION_SPEED);
+                } catch (InterruptedException e) {
+                    // Do nothing
+                }
+            }
         });
         sortThread.start();
     }
     private void swap(int i, int j) {
-        int temp = data[i];
-        data[i] = data[j];
-        data[j] = temp;
+        int temp = getData()[i];
+        getData()[i] = getData()[j];
+        getData()[j] = temp;
         repaint();
     }
 }

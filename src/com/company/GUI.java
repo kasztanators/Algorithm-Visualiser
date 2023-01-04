@@ -9,6 +9,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static com.company.algorithms.Settings.HEIGHT;
+import static com.company.algorithms.Settings.WIDTH;
+
 public class GUI implements  ActionListener{
     private JFrame frame;
     private JPanel mainPanel;
@@ -19,10 +22,8 @@ public class GUI implements  ActionListener{
     private JMenuItem aStar;
     private JMenu sorting;
     private JMenu pathFinding;
-    private Settings settings;
     private Container container;
     public GUI(String title) {
-        settings = new Settings();
         frame = new JFrame(title);
         container = frame.getContentPane();
 
@@ -47,13 +48,13 @@ public class GUI implements  ActionListener{
         pathFinding.add(aStar);
         menuBar.add(sorting);
         menuBar.add(pathFinding);
-        menuBar.add(Box.createRigidArea(new Dimension(this.settings.WIDTH,30)));
+        menuBar.add(Box.createRigidArea(new Dimension(WIDTH,30)));
         bubble.addActionListener(this);
         quick.addActionListener(this);
         insertion.addActionListener(this);
         merge.addActionListener(this);
         aStar.addActionListener(this);
-        frame.setPreferredSize(new Dimension(this.settings.WIDTH+15, this.settings.HEIGHT+70));
+        frame.setPreferredSize(new Dimension(WIDTH+15, HEIGHT+70));
         frame.setJMenuBar(menuBar);
         frame.setLayout(new CardLayout());
         mainPanel = new JPanel();
@@ -68,28 +69,28 @@ public class GUI implements  ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == bubble){
-            BubbleSort bubbleSort= new BubbleSort(settings);
+            BubbleSort bubbleSort= new BubbleSort();
             container.removeAll();
             container.add(bubbleSort);
             frame.setVisible(true);
             bubbleSort.sort();
         }
         if(e.getSource() == quick){
-            QuickSort quickSort = new QuickSort(settings);
+            QuickSort quickSort = new QuickSort();
             container.removeAll();
             container.add(quickSort);
             frame.setVisible(true);
             quickSort.sort();
         }
         else if(e.getSource() == merge){
-            MergeSort mergeSort = new MergeSort(settings);
+            MergeSort mergeSort = new MergeSort();
             container.removeAll();
             container.add(mergeSort);
             frame.setVisible(true);
             mergeSort.sort();
         }
         else if(e.getSource() == insertion){
-            InsertionSort insertionSort = new InsertionSort(settings);
+            InsertionSort insertionSort = new InsertionSort();
             container.removeAll();
             container.add(insertionSort);
             frame.setVisible(true);

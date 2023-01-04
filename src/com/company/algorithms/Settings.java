@@ -1,16 +1,45 @@
 package com.company.algorithms;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
 
-public class Settings {
+public abstract class Settings extends JPanel {
     public static final int WIDTH = 800;
     public static final int HEIGHT = 600;
+    public static final int ANIMATION_SPEED =10;
+    public void setSortedIndex(int sortedIndex) {
+        this.sortedIndex = sortedIndex;
+    }
 
+    private int sortedIndex=0;
+    public int[] getData() {
+        return data;
+    }
+
+    public void setData(int[] data) {
+        this.data = data;
+    }
+    private int [] data;
     public int getBarWidth() {
         return barWidth;
     }
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        setBackground(Settings.BACKGROUND_COLOR);
+        for (int i = 0; i < data.length; i++) {
+            int barHeight = data[i] * Settings.MAX_BAR_HEIGHT / this.getNumBars();
+            if(i<sortedIndex){
+                g.setColor(this.SORTED_COLOR);
+            }
+            else{
+                g.setColor(this.UNSORTED_COLOR);
+            }
 
+            g.fillRect(i * this.getBarWidth(), this.HEIGHT - barHeight, this.getBarWidth() - 1, barHeight);
+        }
+    }
     public void setBarWidth(int barWidth) {
         this.barWidth = barWidth;
     }
@@ -45,9 +74,6 @@ public class Settings {
             data[i] = rng.nextInt(1, this.getNumBars());
         }
         return data;
-    }
-    protected void repaint(){
-
     }
 }
 

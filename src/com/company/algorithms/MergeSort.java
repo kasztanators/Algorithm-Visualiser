@@ -4,38 +4,31 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
-public class MergeSort extends JPanel {
-    private int [] data;
-    private boolean isSorted;
+public class MergeSort extends Settings {
+
     private Settings settings;
 
-    public MergeSort(Settings settings) {
-        updateSettings(settings);
+    public MergeSort() {
         setPreferredSize(new Dimension(Settings.WIDTH, Settings.HEIGHT));
-        data = settings.generateRandomData();
-        isSorted = false;
+        this.setData(generateRandomData());
+        this.setSpeed(5);
+    
     }
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        setBackground(Settings.BACKGROUND_COLOR);
-        for (int i = 0; i < data.length; i++) {
 
-            int barHeight = data[i] * Settings.MAX_BAR_HEIGHT / this.settings.getNumBars();
-            if(!isSorted) {g.setColor(this.settings.UNSORTED_COLOR);}
-            else g.setColor(this.settings.SORTED_COLOR);
-            g.fillRect(i * this.settings.getBarWidth(), this.settings.HEIGHT - barHeight, this.settings.getBarWidth()-1, barHeight);
-        }
-
-
-    }
     public void sort() {
 
         Thread sortThread = new Thread(() -> {
-        int array [] = this.data;
+        int array [] = this.getData();
         sort(array, 0, array.length - 1);
-            isSorted = true;
-            repaint();
+            for(int i =0; i< getData().length; i++){
+                repaint();
+                setSortedIndex(i+1);
+                try {
+                    TimeUnit.MILLISECONDS.sleep(ANIMATION_SPEED);
+                } catch (InterruptedException e) {
+                    // Do nothing
+                }
+            }
         });
         sortThread.start();
     }
@@ -50,7 +43,7 @@ public class MergeSort extends JPanel {
         int L[] = new int[n1];
         int R[] = new int[n2];
 
-        /*Copy data to temp arrays*/
+        /*Copy getData() to temp arrays*/
         for (int i = 0; i < n1; ++i)
             L[i] = arr[l + i];
 

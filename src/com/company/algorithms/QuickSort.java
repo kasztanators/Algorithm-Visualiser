@@ -1,34 +1,22 @@
 package com.company.algorithms;
-import java.awt.Graphics;
+
 import java.awt.Dimension;
-import javax.swing.JPanel;
 
 import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
-public class QuickSort extends JPanel {
-    private final int [] data;
-    private boolean isSorted;
+public class QuickSort extends Settings {
+
     private Settings settings;
 
-    public QuickSort(Settings settings){
-        updateSettings(settings);
-        setPreferredSize(new Dimension(Settings.WIDTH, Settings.HEIGHT));
-        data = settings.generateRandomData();
-        isSorted = false;
-    }
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        setBackground(Settings.BACKGROUND_COLOR);
-        for (int i = 0; i < data.length; i++) {
+    public QuickSort(){
 
-            int barHeight = data[i] * Settings.MAX_BAR_HEIGHT / this.settings.getNumBars();
-            if(!isSorted) {g.setColor(Settings.UNSORTED_COLOR);}
-            else g.setColor(Settings.SORTED_COLOR);
-            g.fillRect(i * this.settings.getBarWidth(), Settings.HEIGHT - barHeight, this.settings.getBarWidth()-1, barHeight);
-        }
+        setPreferredSize(new Dimension(Settings.WIDTH, Settings.HEIGHT));
+        this.setData(generateRandomData());
+        this.setSpeed(10);
     }
+
+
     public void updateSettings(Settings settings){
         this.settings = settings;
     }
@@ -37,7 +25,7 @@ public class QuickSort extends JPanel {
         Stack<Integer> stack = new Stack<>();
         // Push the initial start and end indices onto the stack
         stack.push(0);
-        stack.push(this.data.length - 1);
+        stack.push(this.getData().length - 1);
 
         while (!stack.isEmpty()) {
             // Pop the end index off the stack
@@ -60,14 +48,23 @@ public class QuickSort extends JPanel {
                 stack.push(end);
             }
         }
-            isSorted = true;
+        for(int i =0; i< getData().length; i++){
+            repaint();
+            setSortedIndex(i+1);
+            try {
+                TimeUnit.MILLISECONDS.sleep(ANIMATION_SPEED);
+            } catch (InterruptedException e) {
+                // Do nothing
+            }
+        }
+
         });
         sortThread.start();
     }
 
     private int partition(int start, int end) {
         // Choose the pivot element
-        int pivot = this.data[end];
+        int pivot = this.getData()[end];
 
         // Initialize the left and right indices
         int left = start;
@@ -75,22 +72,22 @@ public class QuickSort extends JPanel {
 
         while (left <= right) {
             // Find the first element that is greater than or equal to the pivot
-            while (left <= right && this.data[left] < pivot) {
+            while (left <= right && this.getData()[left] < pivot) {
                 left++;
             }
 
             // Find the first element that is less than or equal to the pivot
-            while (left <= right && this.data[right] > pivot) {
+            while (left <= right && this.getData()[right] > pivot) {
                 right--;
             }
 
             // Swap the elements if they are in the wrong partition
             if (left <= right) {
-                int temp = this.data[left];
-                this.data[left] = this.data[right];
-                this.data[right] = temp;
+                int temp = this.getData()[left];
+                this.getData()[left] = this.getData()[right];
+                this.getData()[right] = temp;
                 try {
-                    TimeUnit.MILLISECONDS.sleep(20);
+                    TimeUnit.MILLISECONDS.sleep(getSpeed());
                 } catch (InterruptedException e) {
                     // Do nothing
                 }
@@ -100,11 +97,11 @@ public class QuickSort extends JPanel {
             }
         }
         // Swap the pivot element into its correct position
-        int temp = this.data[left];
-        this.data[left] = this.data[end];
-        this.data[end] = temp;
+        int temp = this.getData()[left];
+        this.getData()[left] = this.getData()[end];
+        this.getData()[end] = temp;
         try {
-            TimeUnit.MILLISECONDS.sleep(20);
+            TimeUnit.MILLISECONDS.sleep(getSpeed());
         } catch (InterruptedException e) {
             // Do nothing
         }
