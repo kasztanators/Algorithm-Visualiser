@@ -10,7 +10,7 @@ public class BubbleSort extends Settings {
 
 
     public BubbleSort() {
-        setPreferredSize(new Dimension(this.settings.WIDTH, this.settings.HEIGHT));
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setData(generateRandomData());
         this.setSpeed(1);
     }

@@ -10,9 +10,9 @@ public class InsertionSort extends Settings {
     private Settings settings;
 
     public InsertionSort() {
-        setPreferredSize(new Dimension(this.settings.WIDTH, this.settings.HEIGHT));
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setData(generateRandomData());
-        this.setSpeed(10);
+        this.setSpeed(1);
     }
     public void sort(){
         // a loop for finding a small item and then swapping it with other bigger items
@@ -25,7 +25,7 @@ public class InsertionSort extends Settings {
                 j--;
                 repaint();
                 try {
-                    TimeUnit.MILLISECONDS.sleep(1);
+                    TimeUnit.MILLISECONDS.sleep(getSpeed());
                 } catch (InterruptedException e) {
                     // Do nothing
                 }
