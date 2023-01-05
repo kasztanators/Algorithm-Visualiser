@@ -1,13 +1,7 @@
 package com.company.pathFinding;
+import java.awt.*;
 import java.util.ArrayList;
- enum State{
-    VISITED,
-    START,
-    END,
-    OBSTACLE,
-    PATH,
-    OPEN
-}
+
 public class Node implements Comparable<Node>{
     private boolean visited, isStart, isEnd, isObstacle, isPath, openList;
 
@@ -73,6 +67,8 @@ public class Node implements Comparable<Node>{
         return 0;
     }
     public boolean isNextTo(Node node) {
-        return this.row == node.row - 1 && this.col == node.col - 1 || this.row == node.row - 1 && this.col == node.col || this.row == node.row - 1 && this.col == node.col + 1 || this.row == node.row && this.col == node.col - 1 || this.row == node.row && this.col == node.col + 1 || this.row == node.row + 1 && this.col == node.col - 1 || this.row == node.row + 1 && this.col == node.col || this.row == node.row + 1 && this.col == node.col + 1;
+        int rowDiff = Math.abs(this.row - node.row);
+        int colDiff = Math.abs(this.col - node.col);
+        return (rowDiff == 1 && colDiff == 0) || (rowDiff == 0 && colDiff == 1) || (rowDiff == 1 && colDiff == 1);
     }
 }
