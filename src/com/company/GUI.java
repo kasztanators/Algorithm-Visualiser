@@ -25,6 +25,8 @@ public class GUI implements  ActionListener{
     private Container container;
     public GUI(String title) {
         frame = new JFrame(title);
+        frame.setResizable(false);
+
         container = frame.getContentPane();
 
 
@@ -98,10 +100,10 @@ public class GUI implements  ActionListener{
 
         }
         else if(e.getSource()== aStar){
-            Board board = new Board();
             container.removeAll();
+            Board board = new Board();
             container.add(board);
-            board.draw();
+            frame.setVisible(true);
         }
     }
 

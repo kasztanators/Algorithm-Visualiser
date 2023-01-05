@@ -1,7 +1,25 @@
 package com.company.pathFinding;
 import java.util.ArrayList;
+ enum State{
+    VISITED,
+    START,
+    END,
+    OBSTACLE,
+    PATH,
+    OPEN
+}
 public class Node implements Comparable<Node>{
     private boolean visited, isStart, isEnd, isObstacle, isPath, openList;
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    private State state;
     private double g=10e5, h = 10e5, t = g+h;
     private int row, col;
 
@@ -11,7 +29,10 @@ public class Node implements Comparable<Node>{
     public Node(int y, int x) {
         row = y;
         col = x;
+        state = State.OPEN;
     }
+
+
     public double getDistance(Node node) {
         return Math.sqrt((node.row - this.row)*(node.row - this.row) + (node.col - this.col)*(node.col - this.col));
     }
@@ -50,5 +71,8 @@ public class Node implements Comparable<Node>{
         if (node.t < this.t)
             return 1;
         return 0;
+    }
+    public boolean isNextTo(Node node) {
+        return this.row == node.row - 1 && this.col == node.col - 1 || this.row == node.row - 1 && this.col == node.col || this.row == node.row - 1 && this.col == node.col + 1 || this.row == node.row && this.col == node.col - 1 || this.row == node.row && this.col == node.col + 1 || this.row == node.row + 1 && this.col == node.col - 1 || this.row == node.row + 1 && this.col == node.col || this.row == node.row + 1 && this.col == node.col + 1;
     }
 }
