@@ -1,21 +1,14 @@
 package com.company.algorithms;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
+
 import java.util.concurrent.TimeUnit;
 
 public class BubbleSort extends Settings {
-
-    private Settings settings;
-
-
     public BubbleSort() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setData(generateRandomData());
         this.setSpeed(1);
-    }
-    public void updateSettings(Settings settings){
-        this.settings = settings;
     }
     public void sort() {
         Thread sortThread = new Thread(() -> {
@@ -36,7 +29,7 @@ public class BubbleSort extends Settings {
                 repaint();
                 setSortedIndex(i+1);
                 try {
-                    TimeUnit.MILLISECONDS.sleep(ANIMATION_SPEED);
+                    TimeUnit.MILLISECONDS.sleep(getAnimationSpeed());
                 } catch (InterruptedException e) {
                     // Do nothing
                 }

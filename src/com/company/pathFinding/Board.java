@@ -5,14 +5,14 @@ import com.company.algorithms.Settings;
 import javax.swing.*;
 import java.awt.*;
 
-public class PathFinding extends JPanel {
+public class Board extends JPanel {
     private int gridSize;
     private int gridNum;
     private static final int WIDTH = 800;
     private static final int HEIGHT = 600;
-    public PathFinding(){
+    public Board(){
         this.gridSize = 15;
-        this.gridNum = this.HEIGHT / gridSize;
+        this.gridNum = this.WIDTH / gridSize;
         setPreferredSize(new Dimension(Settings.HEIGHT, Settings.HEIGHT));
     }
     @Override
@@ -20,12 +20,14 @@ public class PathFinding extends JPanel {
         super.paintComponent(g);
         setBackground(Color.GRAY);
         for(int i = 0 ; i<this.gridNum; i++){
-            g.drawLine(0,i*this.gridSize, HEIGHT-gridSize, i*this.gridSize);
-            g.drawLine(i*this.gridSize, 0, i*gridSize, WIDTH);
+            g.drawLine(0,i*this.gridSize, WIDTH, i*this.gridSize);
+            g.drawLine(i*this.gridSize, 0, i*gridSize, HEIGHT);
         }
     }
     public void draw(){
+        Thread sortThread = new Thread(() -> {
         repaint();
+        });
+        sortThread.start();
     }
-
 }

@@ -6,9 +6,6 @@ import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
 public class InsertionSort extends Settings {
-
-    private Settings settings;
-
     public InsertionSort() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setData(generateRandomData());
@@ -35,7 +32,7 @@ public class InsertionSort extends Settings {
                 repaint();
                 setSortedIndex(i+1);
                 try {
-                    TimeUnit.MILLISECONDS.sleep(ANIMATION_SPEED);
+                    TimeUnit.MILLISECONDS.sleep(getAnimationSpeed());
                 } catch (InterruptedException e) {
                     // Do nothing
                 }
@@ -48,8 +45,5 @@ public class InsertionSort extends Settings {
         this.getData()[i] = this.getData()[j];
         this.getData()[j] = tmp;
         repaint();
-    }
-    public void updateSettings(Settings settings){
-        this.settings = settings;
     }
 }

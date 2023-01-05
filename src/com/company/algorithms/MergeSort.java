@@ -1,18 +1,14 @@
 package com.company.algorithms;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
 public class MergeSort extends Settings {
 
-    private Settings settings;
-
     public MergeSort() {
         setPreferredSize(new Dimension(Settings.WIDTH, Settings.HEIGHT));
         this.setData(generateRandomData());
         this.setSpeed(5);
-    
     }
 
     public void sort() {
@@ -24,7 +20,7 @@ public class MergeSort extends Settings {
                 repaint();
                 setSortedIndex(i+1);
                 try {
-                    TimeUnit.MILLISECONDS.sleep(ANIMATION_SPEED);
+                    TimeUnit.MILLISECONDS.sleep(getAnimationSpeed());
                 } catch (InterruptedException e) {
                     // Do nothing
                 }
@@ -66,7 +62,7 @@ public class MergeSort extends Settings {
             k++;
             repaint();
             try {
-                TimeUnit.MILLISECONDS.sleep(5);
+                TimeUnit.MILLISECONDS.sleep(getSpeed());
             } catch (InterruptedException e) {
                 // Do nothing
             }
@@ -79,7 +75,7 @@ public class MergeSort extends Settings {
             k++;
             repaint();
             try {
-                TimeUnit.MILLISECONDS.sleep(5);
+                TimeUnit.MILLISECONDS.sleep(getSpeed());
             } catch (InterruptedException e) {
                 // Do nothing
             }
@@ -92,7 +88,7 @@ public class MergeSort extends Settings {
             k++;
             repaint();
             try {
-                TimeUnit.MILLISECONDS.sleep(5);
+                TimeUnit.MILLISECONDS.sleep(getSpeed());
             } catch (InterruptedException e) {
                 // Do nothing
             }
@@ -114,8 +110,5 @@ public class MergeSort extends Settings {
             // Merge the sorted halves
             merge(arr, l, m, r);
         }
-    }
-    public void updateSettings(Settings settings){
-        this.settings = settings;
     }
 }

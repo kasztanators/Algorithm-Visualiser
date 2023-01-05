@@ -1,7 +1,7 @@
 package com.company;
 
 import com.company.algorithms.*;
-import com.company.pathFinding.PathFinding;
+import com.company.pathFinding.*;
 
 
 import javax.swing.*;
@@ -98,10 +98,10 @@ public class GUI implements  ActionListener{
 
         }
         else if(e.getSource()== aStar){
-            PathFinding pathFinding = new PathFinding();
+            Board board = new Board();
             container.removeAll();
-            container.add(pathFinding);
-            pathFinding.draw();
+            container.add(board);
+            board.draw();
         }
     }
 

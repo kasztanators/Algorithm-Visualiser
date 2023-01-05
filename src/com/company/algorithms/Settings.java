@@ -7,7 +7,16 @@ import java.util.Random;
 public abstract class Settings extends JPanel {
     public static final int WIDTH = 800;
     public static final int HEIGHT = 600;
-    public static final int ANIMATION_SPEED =10;
+
+    public int getAnimationSpeed() {
+        return animationSpeed;
+    }
+
+    public void setAnimationSpeed(int animatioSpeed) {
+        this.animationSpeed = animatioSpeed;
+    }
+
+    private int animationSpeed =10;
     public void setSortedIndex(int sortedIndex) {
         this.sortedIndex = sortedIndex;
     }
@@ -66,7 +75,7 @@ public abstract class Settings extends JPanel {
     public static final int MAX_BAR_HEIGHT = HEIGHT - 20;
     public static final Color BACKGROUND_COLOR = Color.BLACK;
     public static final Color SORTED_COLOR = Color.GREEN;
-    public static final Color UNSORTED_COLOR = Color.RED;
+    public static final Color UNSORTED_COLOR = Color.WHITE;
     public int[] generateRandomData() {
         Random rng = new Random();
         int[] data = new int[this.getNumBars()];
