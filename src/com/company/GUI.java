@@ -25,7 +25,7 @@ public class GUI implements  ActionListener{
     private Container container;
     public GUI(String title) {
         frame = new JFrame(title);
-       // frame.setResizable(false);
+        frame.setResizable(false);
 
         container = frame.getContentPane();
 

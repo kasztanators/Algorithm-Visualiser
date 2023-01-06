@@ -1,10 +1,7 @@
 package com.company.pathFinding;
-import java.awt.*;
 import java.util.ArrayList;
 
 public class Node implements Comparable<Node>{
-    private boolean visited, isStart, isEnd, isObstacle, isPath, openList;
-
     public State getState() {
         return state;
     }
@@ -25,45 +22,39 @@ public class Node implements Comparable<Node>{
         col = x;
         state = State.OPEN;
     }
-
-
     public double getDistance(Node node) {
-        return Math.sqrt((node.row - this.row)*(node.row - this.row) + (node.col - this.col)*(node.col - this.col));
+        int rowDiff = node.row - this.row;
+        int colDiff = node.col - this.col;
+        return Math.sqrt(rowDiff * rowDiff + colDiff * colDiff);
     }
     public boolean isDiagonal(Node node) {
-        if(node.row == this.row - 1 && node.col == this.col -1)
-            return true;
-        if(node.row == this.row - 1 && node.col == this.col +1)
-            return true;
-        if(node.row == this.row + 1 && node.col == this.col -1)
-            return true;
-        return node.row == this.row + 1 && node.col == this.col + 1;
+        int rowDiff = Math.abs(node.row - this.row);
+        int colDiff = Math.abs(node.col - this.col);
+        return rowDiff == 1 && colDiff == 1;
     }
     public void getEdges(Node[][] nodes) {
-        if(row - 1 >= 0 && col - 1 >= 0)
-            edges.add(nodes[row-1][col-1]);
-        if(row - 1 >= 0)
-            edges.add(nodes[row-1][col]);
-        if(row - 1 >= 0 && col + 1 < nodes[0].length)
-            edges.add(nodes[row-1][col+1]);
-        if(col - 1 >= 0)
-            edges.add(nodes[row][col-1]);
-        if(col + 1 < nodes[0].length)
-            edges.add(nodes[row][col+1]);
-        if(row + 1 < nodes.length && col - 1 >= 0)
-            edges.add(nodes[row+1][col-1]);
-        if(row + 1 < nodes.length)
-            edges.add(nodes[row+1][col]);
-        if(row + 1 < nodes.length && col + 1 < nodes[0].length)
-            edges.add(nodes[row+1][col+1]);
+        int rows = nodes.length;
+        int cols = nodes[0].length;
+
+        for (int rowDiff = -1; rowDiff <= 1; rowDiff++) {       // loops over all possible row and column differences (-1, 0, 1)
+            for (int colDiff = -1; colDiff <= 1; colDiff++) {
+                int row = this.row + rowDiff;
+                int col = this.col + colDiff;
+
+                if (row >= 0 && row < rows && col >= 0 && col < cols) {
+                    edges.add(nodes[row][col]);    //adds edges to corresponding node
+                }
+            }
+        }
     }
     @Override
     public int compareTo(Node node) {
-
-        if (node.t > this.t)
+        if (node.t > this.t) {
             return -1;
-        if (node.t < this.t)
+        }
+        if (node.t < this.t) {
             return 1;
+        }
         return 0;
     }
     public boolean isNextTo(Node node) {

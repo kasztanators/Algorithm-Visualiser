@@ -14,28 +14,46 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     private boolean isSetStart, isSetFinish, gameStart= false;
     private Node start;
     private Node finish;
+    private JButton [] buttons;
     public Board(){
         setPreferredSize(new Dimension(SCREEN_SIZE, SCREEN_SIZE));
         setBackground(Color.GRAY);
         setFocusable(true);
         addMouseListener(this);
         addMouseMotionListener(this);
-//      //  JButton button1 = new JButton("A Star");
-//        JButton button2 = new JButton("Greedy");
-//        JButton button3 = new JButton("UCS");
-//        //this.add(button1);
-//        JButton button1 = new JButton("A Star");
-//    //    this.setLayout(new FlowLayout());
-//       // button1.setBounds(600, 50, 100, 30); // x, y, width, height
-//        button1.setLocation(600, 50); // x, y
-//        this.add(button1);
+        createButtons();
+        createLayout();
+        initializeNodes();
+        repaint();
+    }
+    private void createLayout() {
+        BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
+        this.setLayout(layout);
+        final int gap = 20;
+        Dimension buttonSize = new Dimension(80, 50);
+        for (JButton button : buttons) {
+            button.setMaximumSize(buttonSize);
+            button.setAlignmentX(Component.RIGHT_ALIGNMENT);
+            this.add(Box.createRigidArea(new Dimension(gap, gap)));
+            this.add(button);
 
+        }
+    }
+    private void createButtons() {
+        JButton button1 = new JButton("A Star");
+        button1.setPreferredSize(new Dimension(100, 50));
+        JButton button2 = new JButton("Greedy");
+        button2.setPreferredSize(new Dimension(100, 50));
+        JButton button3 = new JButton("UCS");
+        button3.setPreferredSize(new Dimension(100, 50));
+        buttons = new JButton[] { button1, button2, button3 };
+    }
+    private void initializeNodes() {
         for (int i = 0; i < gridNum; i++) {
             for (int j = 0; j < gridNum; j++) {
-                nodes[i][j] = new Node(i,j);
+                nodes[i][j] = new Node(i, j);
             }
         }
-        repaint();
     }
     @Override
     public void paintComponent(Graphics g){
@@ -52,13 +70,6 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
             }
         }
     }
-    public void draw(){
-        Thread sortThread = new Thread(() -> {
-        repaint();
-        });
-        sortThread.start();
-    }
-
     @Override
     public void mouseClicked(MouseEvent e) {
         checkMouseInBoard(e);
@@ -125,7 +136,6 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     public void mouseExited(MouseEvent e) {
 
     }
-
     @Override
     public void mouseMoved(MouseEvent e) {
     }
