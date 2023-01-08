@@ -25,15 +25,35 @@ public class GUI implements  ActionListener{
     private Container container;
     public GUI(String title) {
         frame = new JFrame(title);
-        frame.setResizable(false);
-
         container = frame.getContentPane();
-
-
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JMenuBar menuBar = new JMenuBar();
+        createMenuItems();
+        setSortingItems();
+        pathFinding.add(newBoard);
+        menuBar.add(sorting);
+        menuBar.add(pathFinding);
+        menuBar.add(Box.createRigidArea(new Dimension(WIDTH,30)));
+        newBoard.addActionListener(this);
+        frame.setJMenuBar(menuBar);
+        setFrame();
+        setMainPanel();
+        container.add(mainPanel);
+        frame.setVisible(true);
 
-
+    }
+    private void setFrame(){
+        frame.setPreferredSize(new Dimension(WIDTH+15, HEIGHT+70));
+        frame.pack();
+        frame.setResizable(false);
+        frame.setLayout(new CardLayout());
+    }
+    private void setMainPanel(){
+        mainPanel = new JPanel();
+        mainPanel.setBackground(Color.lightGray);
+        mainPanel.setLayout(null);
+    }
+    private void createMenuItems(){
         sorting = new JMenu("Sorting Algorithms");
         pathFinding = new JMenu("Path Finding");
         bubble = new JMenuItem("Bubble sort");
@@ -41,32 +61,13 @@ public class GUI implements  ActionListener{
         merge = new JMenuItem("Merge Sort");
         insertion = new JMenuItem("Insertion Sort");
         newBoard = new JMenuItem("New Board");
-
-        JMenuBar menuBar = new JMenuBar();
-        sorting.add(bubble);
-        sorting.add(quick);
-        sorting.add(merge);
-        sorting.add(insertion);
-        pathFinding.add(newBoard);
-        menuBar.add(sorting);
-        menuBar.add(pathFinding);
-        menuBar.add(Box.createRigidArea(new Dimension(WIDTH,30)));
-        bubble.addActionListener(this);
-        quick.addActionListener(this);
-        insertion.addActionListener(this);
-        merge.addActionListener(this);
-        newBoard.addActionListener(this);
-        frame.setPreferredSize(new Dimension(WIDTH+15, HEIGHT+70));
-        frame.setJMenuBar(menuBar);
-        frame.setLayout(new CardLayout());
-        mainPanel = new JPanel();
-        mainPanel.setBackground(Color.lightGray);
-        mainPanel.setLayout(null);
-        container.add(mainPanel);
-        frame.pack();
-
-        frame.setVisible(true);
-
+    }
+    private void setSortingItems(){
+        JMenuItem [] sortingItems = new JMenuItem[] {insertion,merge,bubble,quick};
+        for (JMenuItem menuItem :sortingItems) {
+            sorting.add(menuItem);
+            menuItem.addActionListener(this);
+        }
     }
     @Override
     public void actionPerformed(ActionEvent e) {

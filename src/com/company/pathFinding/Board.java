@@ -1,21 +1,35 @@
 package com.company.pathFinding;
 
+
+import com.company.pathFinding.Algorithms.UCS;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 
 public class Board extends JPanel implements MouseListener, MouseMotionListener {
     private final int gridSize = 15;
     private static final int gridNum= 40;
     private Node[][] nodes = new Node[gridNum][gridNum];
     private static final int SCREEN_SIZE = 600;
-    private boolean isSetStart, isSetFinish, gameStart= false;
+    private boolean isSetStart;
+    private boolean isSetFinish;
+    private boolean gameStart= false;
     private Node start;
     private Node finish;
     private JButton [] buttons;
+    static Board instance;
+    UCS ucs = new UCS();
+    public static Board getInstance() {
+        if (instance == null)
+            instance = new Board();
+        return instance;
+    }
+    public void setGameStart(boolean gameStart) {
+        this.gameStart = gameStart;
+    }
     public Board(){
+
         setPreferredSize(new Dimension(SCREEN_SIZE, SCREEN_SIZE));
         setBackground(Color.GRAY);
         setFocusable(true);
@@ -24,7 +38,15 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         createButtons();
         createLayout();
         initializeNodes();
+        initializeEdges();
         repaint();
+    }
+    private void initializeEdges(){
+        for (int i = 0; i < nodes.length; i++) {
+            for (int j = 0; j < nodes[i].length; j++) {
+                nodes[i][j].getEdges(nodes);
+            }
+        }
     }
     private void createLayout() {
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
@@ -41,10 +63,35 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     }
     private void createButtons() {
         JButton button1 = new JButton("A Star");
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(isSetFinish){
+                    ucs.findPath(start, finish);
+                }
+            }
+        });
         button1.setPreferredSize(new Dimension(100, 50));
         JButton button2 = new JButton("Greedy");
+        button2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(isSetFinish){
+
+                }
+
+            }
+        });
         button2.setPreferredSize(new Dimension(100, 50));
         JButton button3 = new JButton("UCS");
+        button3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(isSetFinish){
+
+                }
+            }
+        });
         button3.setPreferredSize(new Dimension(100, 50));
         buttons = new JButton[] { button1, button2, button3 };
     }

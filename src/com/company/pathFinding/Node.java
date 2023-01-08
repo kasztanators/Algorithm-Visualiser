@@ -14,6 +14,46 @@ public class Node implements Comparable<Node>{
     private double g=10e5, h = 10e5, t = g+h;
     private int row, col;
 
+    public double getG() {
+        return g;
+    }
+
+    public void setG(double g) {
+        this.g = g;
+    }
+
+    public double getH() {
+        return h;
+    }
+
+    public void setH(double h) {
+        this.h = h;
+    }
+
+    public double getT() {
+        return t;
+    }
+
+    public void setT(double t) {
+        this.t = t;
+    }
+
+    public Node getParent() {
+        return parent;
+    }
+
+    public void setParent(Node parent) {
+        this.parent = parent;
+    }
+
+    public ArrayList<Node> getEdges() {
+        return edges;
+    }
+
+    public void setEdges(ArrayList<Node> edges) {
+        this.edges = edges;
+    }
+
     private Node parent;
     private ArrayList<Node> edges = new ArrayList<>();
 
