@@ -102,8 +102,7 @@ public class GUI implements  ActionListener{
         }
         else if(e.getSource()== newBoard){
             container.removeAll();
-            Board board = new Board();
-            container.add(board);
+            container.add(Board.getInstance());
             frame.setVisible(true);
         }
     }

@@ -1,6 +1,7 @@
 package com.company.pathFinding;
 
 
+import com.company.pathFinding.Algorithms.Astar;
 import com.company.pathFinding.Algorithms.UCS;
 
 import javax.swing.*;
@@ -19,12 +20,15 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     private Node finish;
     private JButton [] buttons;
     static Board instance;
-    UCS ucs = new UCS();
+
     public static Board getInstance() {
         if (instance == null)
             instance = new Board();
+
         return instance;
     }
+    private void resetBoard(){}
+
     public void setGameStart(boolean gameStart) {
         this.gameStart = gameStart;
     }
@@ -67,7 +71,8 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(isSetFinish){
-                    ucs.findPath(start, finish);
+                    Astar astar = new Astar();
+                    astar.findPath(start, finish);
                 }
             }
         });
@@ -77,7 +82,8 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(isSetFinish){
-
+                    UCS ucs = new UCS();
+                    ucs.findPath(start, finish);
                 }
 
             }

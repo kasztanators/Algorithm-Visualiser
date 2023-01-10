@@ -50,10 +50,6 @@ public class Node implements Comparable<Node>{
         return edges;
     }
 
-    public void setEdges(ArrayList<Node> edges) {
-        this.edges = edges;
-    }
-
     private Node parent;
     private ArrayList<Node> edges = new ArrayList<>();
 

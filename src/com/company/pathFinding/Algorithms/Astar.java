@@ -9,24 +9,29 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.PriorityQueue;
 
-public class UCS {
+public class Astar {
     private final PriorityQueue<Node> priorityQueue = new PriorityQueue<Node>();
     private Timer timer;
     public void findPath(Node start, Node end) {
+
         start.setG(0);
-        start.setT(start.getG());
+        start.setH(start.getDistance(end));
+        start.setT(start.getG() +start.getH());
         priorityQueue.add(start);
 
-        timer = new Timer(1, new ActionListener() {
+        timer = new Timer(10, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
                 if (!priorityQueue.isEmpty()) {
                     Node current = priorityQueue.poll();
+
                     if (current.equals(end)) {
+
                         Board.getInstance().setGameStart(true);
                         backtrack(current);
                         timer.stop();
                     }
+
                     if (current.getState() !=State.VISITED) {
                         current.setState(State.VISITED);
                         for (int i = 0; i < current.getEdges().size(); i++) {
@@ -37,10 +42,12 @@ public class UCS {
                                     newCost = current.getG() + 1.4;
                                 else
                                     newCost = current.getG() + 1;
-                                if (newCost < edge.getG()) {
+                                edge.setH(edge.getDistance(end));
+                                double newTotal = newCost + edge.getH();
+                                if (newTotal < edge.getT()) {
                                     edge.setG(newCost);
-                                    edge.setT(edge.getG());
-                                    edge.setParent(current);
+                                    edge.setT(edge.getG() + edge.getH());
+                                    edge.setParent( current);
                                     priorityQueue.add(edge);
                                     edge.setState(State.OPEN);
                                 }
@@ -48,7 +55,6 @@ public class UCS {
                         }
                         Board.getInstance().repaint();
                     }
-
                 }
             }
         });
