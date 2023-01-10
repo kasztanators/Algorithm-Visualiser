@@ -23,7 +23,7 @@ public class InsertionSort extends Settings {
                 repaint();
                 try {
                     TimeUnit.MILLISECONDS.sleep(getSpeed());
-                } catch (InterruptedException e) {
+                } catch (InterruptedException ignored) {
 
                 }
             }

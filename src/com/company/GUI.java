@@ -13,7 +13,7 @@ import static com.company.algorithms.Settings.HEIGHT;
 import static com.company.algorithms.Settings.WIDTH;
 
 public class GUI implements  ActionListener{
-    private JFrame frame;
+    private final JFrame frame;
     private JPanel mainPanel;
     private JMenuItem bubble;
     private JMenuItem quick;
@@ -22,7 +22,7 @@ public class GUI implements  ActionListener{
     private JMenuItem newBoard;
     private JMenu sorting;
     private JMenu pathFinding;
-    private Container container;
+    private final Container container;
     public GUI(String title) {
         frame = new JFrame(title);
         container = frame.getContentPane();
@@ -102,8 +102,9 @@ public class GUI implements  ActionListener{
         }
         else if(e.getSource()== newBoard){
             container.removeAll();
-            container.add(Board.getInstance());
             frame.setVisible(true);
+            container.add(Board.getInstance());
+
         }
     }
 

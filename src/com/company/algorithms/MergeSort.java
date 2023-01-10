@@ -14,7 +14,7 @@ public class MergeSort extends Settings {
     public void sort() {
 
         Thread sortThread = new Thread(() -> {
-        int array [] = this.getData();
+        int[] array = this.getData();
         sort(array, 0, array.length - 1);
             for(int i =0; i< getData().length; i++){
                 repaint();
@@ -29,26 +29,25 @@ public class MergeSort extends Settings {
         sortThread.start();
     }
 
-    void merge(int arr[], int l, int m, int r)
+    void merge(int[] arr, int l, int m, int r)
     {
-        // Find sizes of two subarrays to be merged
+        // Find sizes of two sub-arrays to be merged
         int n1 = m - l + 1;
         int n2 = r - m;
 
         /* Create temp arrays */
-        int L[] = new int[n1];
-        int R[] = new int[n2];
+        int[] L = new int[n1];
+        int[] R = new int[n2];
 
         /*Copy getData() to temp arrays*/
-        for (int i = 0; i < n1; ++i)
-            L[i] = arr[l + i];
+        System.arraycopy(arr, l, L, 0, n1);
 
         for (int j = 0; j < n2; ++j)
             R[j] = arr[m + 1 + j];
 
         int i = 0, j = 0;
 
-        // Initial index of merged subarray array
+        // Initial index of merged sub-array array
         int k = l;
         while (i < n1 && j < n2) {
             if (L[i] <= R[j]) {
@@ -97,7 +96,7 @@ public class MergeSort extends Settings {
 
     // Main function that sorts arr[l..r] using
     // merge()
-    void sort(int arr[], int l, int r)
+    void sort(int[] arr, int l, int r)
     {
         if (l < r) {
             // Find the middle point

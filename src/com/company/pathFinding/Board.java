@@ -11,7 +11,7 @@ import java.awt.event.*;
 public class Board extends JPanel implements MouseListener, MouseMotionListener {
     private final int gridSize = 15;
     private static final int gridNum= 40;
-    private Node[][] nodes = new Node[gridNum][gridNum];
+    private final Node[][] nodes = new Node[gridNum][gridNum];
     private static final int SCREEN_SIZE = 600;
     private boolean isSetStart;
     private boolean isSetFinish;
@@ -27,7 +27,14 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 
         return instance;
     }
-    private void resetBoard(){}
+    private void resetBoard(){
+        isSetFinish = false;
+        isSetStart = false;
+        gameStart = false;
+        initializeNodes();
+        initializeEdges();
+        repaint();
+    }
 
     public void setGameStart(boolean gameStart) {
         this.gameStart = gameStart;
@@ -46,9 +53,9 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         repaint();
     }
     private void initializeEdges(){
-        for (int i = 0; i < nodes.length; i++) {
-            for (int j = 0; j < nodes[i].length; j++) {
-                nodes[i][j].getEdges(nodes);
+        for (Node[] node : nodes) {
+            for (Node value : node) {
+                value.getEdges(nodes);
             }
         }
     }
@@ -67,37 +74,24 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     }
     private void createButtons() {
         JButton button1 = new JButton("A Star");
-        button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(isSetFinish){
-                    Astar astar = new Astar();
-                    astar.findPath(start, finish);
-                }
+        button1.addActionListener(e -> {
+            if(isSetFinish){
+                Astar astar = new Astar();
+                astar.findPath(start, finish);
             }
         });
         button1.setPreferredSize(new Dimension(100, 50));
-        JButton button2 = new JButton("Greedy");
-        button2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(isSetFinish){
-                    UCS ucs = new UCS();
-                    ucs.findPath(start, finish);
-                }
-
+        JButton button2 = new JButton("UCS");
+        button2.addActionListener(e -> {
+            if(isSetFinish){
+                UCS ucs = new UCS();
+                ucs.findPath(start, finish);
             }
+
         });
         button2.setPreferredSize(new Dimension(100, 50));
-        JButton button3 = new JButton("UCS");
-        button3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(isSetFinish){
-
-                }
-            }
-        });
+        JButton button3 = new JButton("Reset");
+        button3.addActionListener(e -> resetBoard());
         button3.setPreferredSize(new Dimension(100, 50));
         buttons = new JButton[] { button1, button2, button3 };
     }
@@ -134,7 +128,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
                     start = this.nodes[y][x];
                     start.setState(State.START);
                     isSetStart = true;
-                } else if (!isSetFinish && this.nodes[y][x].getState() != State.START && !this.start.isNextTo(this.nodes[y][x])) {
+                } else if (!isSetFinish && this.nodes[y][x].getState() != State.START && this.start.isNextTo(this.nodes[y][x])) {
                     finish = this.nodes[y][x];
                     this.finish.setState(State.END);
                     isSetFinish = true;
@@ -158,7 +152,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
                 start = nodes[y][x];
                 start.setState(State.START);
                 isSetStart = true;
-            } else if (!isSetFinish && nodes[y][x].getState() != State.START && !start.isNextTo(this.nodes[y][x])) {
+            } else if (!isSetFinish && nodes[y][x].getState() != State.START && start.isNextTo(this.nodes[y][x])) {
                 finish = nodes[y][x];
                 finish.setState(State.END);
                 isSetFinish = true;

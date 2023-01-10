@@ -11,8 +11,20 @@ public class Node implements Comparable<Node>{
     }
 
     private State state;
+
+
+    private boolean isVisited = false;
+    public boolean isVisited() {
+        return !isVisited;
+    }
+
+    public void setVisited(boolean visited) {
+        isVisited = visited;
+    }
+
     private double g=10e5, h = 10e5, t = g+h;
-    private int row, col;
+    private final int row;
+    private final int col;
 
     public double getG() {
         return g;
@@ -51,12 +63,12 @@ public class Node implements Comparable<Node>{
     }
 
     private Node parent;
-    private ArrayList<Node> edges = new ArrayList<>();
+    private final ArrayList<Node> edges = new ArrayList<>();
 
     public Node(int y, int x) {
         row = y;
         col = x;
-        state = State.OPEN;
+        state = State.UNTOUCHED;
     }
     public double getDistance(Node node) {
         int rowDiff = node.row - this.row;
@@ -85,17 +97,11 @@ public class Node implements Comparable<Node>{
     }
     @Override
     public int compareTo(Node node) {
-        if (node.t > this.t) {
-            return -1;
-        }
-        if (node.t < this.t) {
-            return 1;
-        }
-        return 0;
+        return Double.compare(this.t, node.t);
     }
     public boolean isNextTo(Node node) {
         int rowDiff = Math.abs(this.row - node.row);
         int colDiff = Math.abs(this.col - node.col);
-        return (rowDiff == 1 && colDiff == 0) || (rowDiff == 0 && colDiff == 1) || (rowDiff == 1 && colDiff == 1);
+        return (rowDiff != 1 || colDiff != 0) && (rowDiff != 0 || colDiff != 1) && (rowDiff != 1 || colDiff != 1);
     }
 }

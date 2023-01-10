@@ -12,8 +12,8 @@ public abstract class Settings extends JPanel {
         return animationSpeed;
     }
 
-    public void setAnimationSpeed(int animatioSpeed) {
-        this.animationSpeed = animatioSpeed;
+    public void setAnimationSpeed(int animationSpeed) {
+        this.animationSpeed = animationSpeed;
     }
 
     private int animationSpeed =10;
@@ -40,25 +40,18 @@ public abstract class Settings extends JPanel {
         for (int i = 0; i < data.length; i++) {
             int barHeight = data[i] * Settings.MAX_BAR_HEIGHT / this.getNumBars();
             if(i<sortedIndex){
-                g.setColor(this.SORTED_COLOR);
+                g.setColor(SORTED_COLOR);
             }
             else{
-                g.setColor(this.UNSORTED_COLOR);
+                g.setColor(UNSORTED_COLOR);
             }
 
-            g.fillRect(i * this.getBarWidth(), this.HEIGHT - barHeight, this.getBarWidth() - 1, barHeight);
+            g.fillRect(i * this.getBarWidth(), HEIGHT - barHeight, this.getBarWidth() - 1, barHeight);
         }
-    }
-    public void setBarWidth(int barWidth) {
-        this.barWidth = barWidth;
     }
 
     public int getNumBars() {
-        return numBars;
-    }
-
-    public void setNumBars(int numBars) {
-        this.numBars = numBars;
+        return WIDTH / barWidth;
     }
 
     public int getSpeed() {
@@ -70,8 +63,7 @@ public abstract class Settings extends JPanel {
     }
 
     private int speed = 1;
-    private int barWidth = 5;
-    private int numBars = WIDTH / barWidth;
+    private final int barWidth = 5;
     public static final int MAX_BAR_HEIGHT = HEIGHT - 20;
     public static final Color BACKGROUND_COLOR = Color.BLACK;
     public static final Color SORTED_COLOR = Color.GREEN;
