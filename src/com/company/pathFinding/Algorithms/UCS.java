@@ -4,25 +4,23 @@ import com.company.pathFinding.Board;
 import com.company.pathFinding.Node;
 import com.company.pathFinding.State;
 
-import javax.swing.*;
+
 import java.util.PriorityQueue;
 
 public class UCS {
     private final PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
-    private Timer timer;
     public void findPath(Node start, Node end) {
         start.setG(0);
         start.setT(start.getG());
         priorityQueue.add(start);
 
-        timer = new Timer(1, e -> {
-
-            if (!priorityQueue.isEmpty()) {
+        Thread pathThread = new Thread(() -> {
+            while (!priorityQueue.isEmpty()) {
                 Node current = priorityQueue.poll();
                 if (current.equals(end)) {
                     Board.getInstance().setGameStart(true);
-                    backtrack(current);
-                    timer.stop();
+                    pathFound(current);
+                    break;
                 }
                 if (current.isVisited()) {
                     current.setVisited(true);
@@ -46,19 +44,33 @@ public class UCS {
                                 }
                             }
                         }
+
+                    }
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                     Board.getInstance().repaint();
                 }
 
             }
         });
-        timer.start();
+        pathThread.start();
     }
-    private void backtrack(Node end) {
-        Node current = end.getParent();
-        while (current.getState() != State.START) {
-            current.setState(State.PATH);
-            current = current.getParent();
-        }
+    private void pathFound(Node finish) {
+
+            Node current = finish.getParent();
+            while (current.getState() != State.START) {
+                current.setState(State.PATH);
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Board.getInstance().repaint();
+                current = current.getParent();
+            }
+
     }
 }

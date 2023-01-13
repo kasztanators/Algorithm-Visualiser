@@ -104,6 +104,7 @@ public class GUI implements  ActionListener{
             container.removeAll();
             frame.setVisible(true);
             container.add(Board.getInstance());
+            Board.getInstance().refresh();
 
         }
     }

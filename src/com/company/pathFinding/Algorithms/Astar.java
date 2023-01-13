@@ -4,14 +4,10 @@ import com.company.pathFinding.Board;
 import com.company.pathFinding.Node;
 import com.company.pathFinding.State;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.PriorityQueue;
 
-public class Astar {
+import java.util.PriorityQueue;
+public class Astar  {
     private final PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
-    private Timer timer;
     public void findPath(Node start, Node finish) {
 
         start.setG(0);
@@ -19,16 +15,15 @@ public class Astar {
         start.setT(start.getG() +start.getH());
         priorityQueue.add(start);
 
-        timer = new Timer(10, e -> {
-
-            if (!priorityQueue.isEmpty()) {
+        Thread pathThread = new Thread(() -> {
+            while (!priorityQueue.isEmpty()) {
                 Node current = priorityQueue.poll();
 
                 if (current.equals(finish)) {
 
                     Board.getInstance().setGameStart(true);
-                    backtrack(current);
-                    timer.stop();
+                    pathFound(current);
+                    break;
                 }
                 if (current.isVisited()) {
                     current.setVisited(true);
@@ -55,17 +50,30 @@ public class Astar {
                             }
                         }
                     }
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     Board.getInstance().repaint();
                 }
             }
         });
-        timer.start();
+        pathThread.start();
     }
-    private void backtrack(Node finish) {
+    private void pathFound(Node finish) {
+
         Node current = finish.getParent();
         while (current.getState() != State.START) {
             current.setState(State.PATH);
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Board.getInstance().repaint();
             current = current.getParent();
         }
+
     }
 }

@@ -31,15 +31,13 @@ public class MergeSort extends Settings {
 
     void merge(int[] arr, int l, int m, int r)
     {
-        // Find sizes of two sub-arrays to be merged
         int n1 = m - l + 1;
         int n2 = r - m;
 
-        /* Create temp arrays */
         int[] L = new int[n1];
         int[] R = new int[n2];
 
-        /*Copy getData() to temp arrays*/
+
         System.arraycopy(arr, l, L, 0, n1);
 
         for (int j = 0; j < n2; ++j)
@@ -47,7 +45,6 @@ public class MergeSort extends Settings {
 
         int i = 0, j = 0;
 
-        // Initial index of merged sub-array array
         int k = l;
         while (i < n1 && j < n2) {
             if (L[i] <= R[j]) {
@@ -67,7 +64,6 @@ public class MergeSort extends Settings {
             }
         }
 
-        /* Copy remaining elements of L[] if any */
         while (i < n1) {
             arr[k] = L[i];
             i++;
@@ -80,7 +76,6 @@ public class MergeSort extends Settings {
             }
         }
 
-        /* Copy remaining elements of R[] if any */
         while (j < n2) {
             arr[k] = R[j];
             j++;
@@ -94,19 +89,12 @@ public class MergeSort extends Settings {
         }
     }
 
-    // Main function that sorts arr[l..r] using
-    // merge()
     void sort(int[] arr, int l, int r)
     {
         if (l < r) {
-            // Find the middle point
             int m = l + (r - l) / 2;
-
-            // Sort first and second halves
             sort(arr, l, m);
             sort(arr, m + 1, r);
-
-            // Merge the sorted halves
             merge(arr, l, m, r);
         }
     }

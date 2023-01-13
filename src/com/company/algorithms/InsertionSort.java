@@ -12,12 +12,10 @@ public class InsertionSort extends Settings {
         this.setSpeed(1);
     }
     public void sort(){
-        // a loop for finding a small item and then swapping it with other bigger items
         Thread sortThread = new Thread(() -> {
         for (int i = 1; i < this.getData().length; i++) {
             int j = i;
             while (j > 0 && this.getData()[j] < this.getData()[j - 1]){
-                //swap item j-1 and j
                 swap(j - 1,j);
                 j--;
                 repaint();
@@ -40,7 +38,7 @@ public class InsertionSort extends Settings {
         });
         sortThread.start();
     }
-    private void swap(int i, int j){ // swap item i and j in the array
+    private void swap(int i, int j){
         int tmp = this.getData()[i];
         this.getData()[i] = this.getData()[j];
         this.getData()[j] = tmp;

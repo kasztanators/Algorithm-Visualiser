@@ -43,7 +43,7 @@ public abstract class Settings extends JPanel {
                 g.setColor(SORTED_COLOR);
             }
             else{
-                g.setColor(UNSORTED_COLOR);
+                g.setColor(new Color(125,255-data[i],255));
             }
 
             g.fillRect(i * this.getBarWidth(), HEIGHT - barHeight, this.getBarWidth() - 1, barHeight);
