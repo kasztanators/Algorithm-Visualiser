@@ -14,14 +14,12 @@ public class Astar  {
         start.setH(start.getDistance(finish));
         start.setT(start.getG() +start.getH());
         priorityQueue.add(start);
-
+        Board.getInstance().setGameStart(true);
         Thread pathThread = new Thread(() -> {
             while (!priorityQueue.isEmpty()) {
                 Node current = priorityQueue.poll();
 
                 if (current.equals(finish)) {
-
-                    Board.getInstance().setGameStart(true);
                     pathFound(current);
                     break;
                 }

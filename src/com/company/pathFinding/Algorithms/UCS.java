@@ -13,12 +13,11 @@ public class UCS {
         start.setG(0);
         start.setT(start.getG());
         priorityQueue.add(start);
-
+        Board.getInstance().setGameStart(true);
         Thread pathThread = new Thread(() -> {
             while (!priorityQueue.isEmpty()) {
                 Node current = priorityQueue.poll();
                 if (current.equals(end)) {
-                    Board.getInstance().setGameStart(true);
                     pathFound(current);
                     break;
                 }
