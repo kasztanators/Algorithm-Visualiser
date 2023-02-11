@@ -1,7 +1,7 @@
 package com.company.algorithms;
 
 import java.awt.*;
-import java.util.concurrent.TimeUnit;
+
 
 public class MergeSort extends Settings {
 
@@ -16,15 +16,7 @@ public class MergeSort extends Settings {
         Thread sortThread = new Thread(() -> {
         int[] array = this.getData();
         sort(array, 0, array.length - 1);
-            for(int i =0; i< getData().length; i++){
-                repaint();
-                setSortedIndex(i+1);
-                try {
-                    TimeUnit.MILLISECONDS.sleep(getAnimationSpeed());
-                } catch (InterruptedException e) {
-                    // Do nothing
-                }
-            }
+        finalRepaint();
         });
         sortThread.start();
     }
@@ -57,11 +49,7 @@ public class MergeSort extends Settings {
             }
             k++;
             repaint();
-            try {
-                TimeUnit.MILLISECONDS.sleep(getSpeed());
-            } catch (InterruptedException e) {
-                // Do nothing
-            }
+            this.delay();
         }
 
         while (i < n1) {
@@ -69,11 +57,7 @@ public class MergeSort extends Settings {
             i++;
             k++;
             repaint();
-            try {
-                TimeUnit.MILLISECONDS.sleep(getSpeed());
-            } catch (InterruptedException e) {
-                // Do nothing
-            }
+            this.delay();
         }
 
         while (j < n2) {
@@ -81,11 +65,7 @@ public class MergeSort extends Settings {
             j++;
             k++;
             repaint();
-            try {
-                TimeUnit.MILLISECONDS.sleep(getSpeed());
-            } catch (InterruptedException e) {
-                // Do nothing
-            }
+            this.delay();
         }
     }
 

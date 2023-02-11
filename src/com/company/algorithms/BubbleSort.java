@@ -2,8 +2,6 @@ package com.company.algorithms;
 
 import java.awt.Dimension;
 
-import java.util.concurrent.TimeUnit;
-
 public class BubbleSort extends Settings {
     public BubbleSort() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -16,24 +14,12 @@ public class BubbleSort extends Settings {
                 for (int j = i + 1; j < getData().length; j++) {
                     if (getData()[j] < getData()[i]) {
                         swap(i, j);
-
-                        try {
-                            TimeUnit.MILLISECONDS.sleep(getSpeed());
-                        } catch (InterruptedException e) {
-                            // Do nothing
-                        }
+                        delay();
                     }
                 }
             }
-            for(int i =0; i< getData().length; i++){
-                repaint();
-                setSortedIndex(i+1);
-                try {
-                    TimeUnit.MILLISECONDS.sleep(getAnimationSpeed());
-                } catch (InterruptedException e) {
-                    // Do nothing
-                }
-            }
+            finalRepaint();
+
         });
         sortThread.start();
     }

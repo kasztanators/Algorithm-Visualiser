@@ -1,9 +1,7 @@
 package com.company.algorithms;
 
-
-
 import java.awt.*;
-import java.util.concurrent.TimeUnit;
+
 
 public class InsertionSort extends Settings {
     public InsertionSort() {
@@ -19,22 +17,10 @@ public class InsertionSort extends Settings {
                 swap(j - 1,j);
                 j--;
                 repaint();
-                try {
-                    TimeUnit.MILLISECONDS.sleep(getSpeed());
-                } catch (InterruptedException ignored) {
-
-                }
+                delay();
             }
         }
-            for(int i =0; i< getData().length; i++){
-                repaint();
-                setSortedIndex(i+1);
-                try {
-                    TimeUnit.MILLISECONDS.sleep(getAnimationSpeed());
-                } catch (InterruptedException e) {
-                    // Do nothing
-                }
-            }
+        finalRepaint();
         });
         sortThread.start();
     }

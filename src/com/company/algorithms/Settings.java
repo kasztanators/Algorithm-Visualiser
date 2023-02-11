@@ -3,6 +3,7 @@ package com.company.algorithms;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public abstract class Settings extends JPanel {
     public static final int WIDTH = 800;
@@ -61,13 +62,27 @@ public abstract class Settings extends JPanel {
     public void setSpeed(int speed) {
         this.speed = speed;
     }
-
+    void delay(){
+        try {
+            TimeUnit.MILLISECONDS.sleep(getSpeed());
+        } catch (InterruptedException e) {
+            System.out.println("sleep_error");
+        }
+    }
+    void finalRepaint(){
+        setSpeed(getAnimationSpeed());
+        for(int i =0; i< getData().length; i++){
+            repaint();
+            setSortedIndex(i+1);
+            this.delay();
+        }
+    }
     private int speed = 1;
     private final int barWidth = 5;
     public static final int MAX_BAR_HEIGHT = HEIGHT - 20;
     public static final Color BACKGROUND_COLOR = Color.BLACK;
     public static final Color SORTED_COLOR = Color.GREEN;
-    public static final Color UNSORTED_COLOR = Color.WHITE;
+
     public int[] generateRandomData() {
         Random rng = new Random();
         int[] data = new int[this.getNumBars()];

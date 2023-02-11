@@ -3,7 +3,6 @@ package com.company.algorithms;
 import java.awt.Dimension;
 
 import java.util.Stack;
-import java.util.concurrent.TimeUnit;
 
 public class QuickSort extends Settings {
 
@@ -36,16 +35,7 @@ public class QuickSort extends Settings {
                 stack.push(end);
             }
         }
-        for(int i =0; i< getData().length; i++){
-            repaint();
-            setSortedIndex(i+1);
-            try {
-                TimeUnit.MILLISECONDS.sleep(getAnimationSpeed());
-            } catch (InterruptedException e) {
-                // Do nothing
-            }
-        }
-
+        finalRepaint();
         });
         sortThread.start();
     }
@@ -69,11 +59,7 @@ public class QuickSort extends Settings {
                 int temp = this.getData()[left];
                 this.getData()[left] = this.getData()[right];
                 this.getData()[right] = temp;
-                try {
-                    TimeUnit.MILLISECONDS.sleep(getSpeed());
-                } catch (InterruptedException e) {
-                    // Do nothing
-                }
+                this.delay();
                 left++;
                 right--;
                 repaint();
@@ -82,11 +68,7 @@ public class QuickSort extends Settings {
         int temp = this.getData()[left];
         this.getData()[left] = this.getData()[end];
         this.getData()[end] = temp;
-        try {
-            TimeUnit.MILLISECONDS.sleep(getSpeed());
-        } catch (InterruptedException e) {
-            // Do nothing
-        }
+        this.delay();
         repaint();
         return left;
     }
