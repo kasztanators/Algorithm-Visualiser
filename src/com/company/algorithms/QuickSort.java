@@ -7,7 +7,6 @@ import java.util.Stack;
 public class QuickSort extends Settings {
 
     public QuickSort(){
-
         setPreferredSize(new Dimension(Settings.WIDTH, Settings.HEIGHT));
         this.setData(generateRandomData());
         this.setSpeed(10);

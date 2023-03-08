@@ -68,7 +68,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(layout);
         final int gap = 20;
-        Dimension buttonSize = new Dimension(80, 50);
+        Dimension buttonSize = new Dimension(100, 50);
         setButtonsAction();
         for (JButton button : buttons) {
             button.setMaximumSize(buttonSize);
